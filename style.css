@@ -1,0 +1,915 @@
+/* ThermaStay - Premium Spa & Hot Springs Finder Styles */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+:root {
+    --color-beige: #F9F6F2;
+    --color-forest: #1B2B21;
+    --color-forest-light: #2D3E33;
+    --color-clay: #7A4F32;
+    --color-stone: #5A5E63;
+    --color-white: #FFFFFF;
+    --color-dark: #121212;
+    --color-accent: #E5D5C5;
+
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+
+    --shadow-premium: 0 15px 45px rgba(0, 0, 0, 0.03), 0 5px 15px rgba(0, 0, 0, 0.02);
+    --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.08);
+    --radius-lg: 0px;
+    /* Sharp corners for minimalist luxury */
+    --radius-md: 0px;
+
+    --transition-premium: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-beige);
+    color: var(--color-dark);
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-heading);
+    color: var(--color-forest);
+    font-weight: 500;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Navbar */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: transparent;
+    z-index: 1000;
+    padding: 2.5rem 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition-premium);
+}
+
+nav.scrolled {
+    padding: 1.2rem 8%;
+    background: rgba(249, 246, 242, 0.98);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(27, 43, 33, 0.05);
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-white);
+    /* Premium contrast on dark background */
+    transition: var(--transition-premium);
+}
+
+nav.scrolled .logo {
+    color: var(--color-forest);
+    /* Elegant shift on light background */
+}
+
+.nav-links {
+    display: flex;
+    gap: 3.5rem;
+}
+
+.nav-links a {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 400;
+    opacity: 0.8;
+    color: var(--color-white);
+    transition: var(--transition-premium);
+    position: relative;
+}
+
+nav.scrolled .nav-links a {
+    color: var(--color-forest);
+    opacity: 0.7;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+    color: var(--color-accent);
+}
+
+nav.scrolled .nav-links a:hover {
+    color: var(--color-clay);
+    opacity: 1;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background: var(--color-clay);
+    transition: var(--transition-premium);
+    transform: translateX(-50%);
+}
+
+.nav-links a:hover::after {
+    width: 20px;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-white);
+    overflow: hidden;
+}
+
+.hero-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    animation: slowZoom 30s infinite alternate linear;
+}
+
+@keyframes slowZoom {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+.mist-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(27, 43, 33, 0.45) 0%, transparent 60%, rgba(249, 246, 242, 0.2) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Advanced Steam Animation */
+@keyframes advancedSteam {
+    0% {
+        background-position: 0 0;
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        background-position: 1000px -1000px;
+        opacity: 0.1;
+    }
+}
+
+.steam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    z-index: 2;
+    pointer-events: none;
+    background: url('https://www.transparenttextures.com/patterns/foggy-birds.png');
+    animation: advancedSteam 30s infinite linear;
+    filter: blur(4px);
+}
+
+.indicator.moderate::before {
+    background: #FF9800;
+    box-shadow: 0 0 15px #FF9800, 0 0 30px rgba(255, 152, 0, 0.5);
+    animation: yellowGlow 2s infinite alternate;
+}
+
+@keyframes yellowGlow {
+    from {
+        box-shadow: 0 0 5px #FF9800;
+    }
+
+    to {
+        box-shadow: 0 0 20px #FF9800, 0 0 40px rgba(255, 152, 0, 0.8);
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 900px;
+    padding: 0 2rem;
+}
+
+.hero h1 {
+    font-size: 5.5rem;
+    color: var(--color-white);
+    margin-bottom: 2rem;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.btn-premium {
+    display: inline-block;
+    padding: 1.2rem 3.5rem;
+    background: transparent;
+    color: var(--color-white);
+    border: 1px solid var(--color-white);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: var(--transition-premium);
+}
+
+.btn-premium:hover {
+    background: var(--color-white);
+    color: var(--color-dark);
+    transform: translateY(-3px);
+}
+
+/* Sections */
+section {
+    padding: 10rem 12%;
+}
+
+.section-title {
+    max-width: 600px;
+    margin-bottom: 6rem;
+}
+
+.section-title h2 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.section-title p {
+    color: var(--color-stone);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+/* Spa Cards - Overhaul */
+.spa-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 4rem;
+}
+
+.spa-card {
+    background: transparent;
+    transition: var(--transition-premium);
+    cursor: pointer;
+}
+
+.spa-img-wrapper {
+    overflow: hidden;
+    height: 550px;
+    margin-bottom: 2rem;
+    position: relative;
+    box-shadow: var(--shadow-premium);
+}
+
+.spa-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-premium);
+}
+
+.spa-card:hover img {
+    transform: scale(1.08);
+}
+
+.spa-info h3 {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+}
+
+.spa-location {
+    color: var(--color-stone);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.spa-tags {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.tag {
+    font-size: 0.7rem;
+    color: var(--color-clay);
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Amenities Page - Premium Grid */
+.amenity-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(27, 43, 33, 0.1);
+    border: 1px solid rgba(27, 43, 33, 0.1);
+}
+
+.amenity-item {
+    background: var(--color-beige);
+    padding: 6rem 3rem;
+    text-align: center;
+    transition: var(--transition-premium);
+}
+
+.amenity-item:hover {
+    background: var(--color-white);
+    transform: scale(1.02);
+    z-index: 2;
+    box-shadow: var(--shadow-hover);
+}
+
+.amenity-icon {
+    font-size: 2.5rem;
+    margin-bottom: 2.5rem;
+    color: var(--color-clay);
+    font-weight: 300;
+}
+
+.amenity-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.amenity-item p {
+    font-size: 0.9rem;
+    color: var(--color-stone);
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+/* Footer */
+footer {
+    background: var(--color-forest);
+    color: var(--color-white);
+    padding: 8rem 12% 4rem;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6rem;
+}
+
+.footer-logo {
+    font-size: 2.5rem;
+    color: var(--color-white);
+    margin-bottom: 0;
+}
+
+.footer-nav h4 {
+    color: var(--color-accent);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+}
+
+.footer-nav ul li {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    opacity: 0.6;
+    transition: var(--transition-premium);
+}
+
+.footer-nav ul li:hover {
+    opacity: 1;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    opacity: 0.4;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 4rem;
+    letter-spacing: 1px;
+}
+
+/* Filter Panel & Indicators */
+.filter-panel {
+    background: var(--color-white);
+    padding: 3rem;
+    margin-bottom: 6rem;
+    box-shadow: var(--shadow-premium);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    align-items: flex-end;
+}
+
+.filter-control {
+    flex: 1;
+    min-width: 250px;
+}
+
+.filter-control label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    color: var(--color-stone);
+}
+
+.filter-control select {
+    width: 100%;
+    padding: 1rem 0;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.checkbox-item input {
+    accent-color: var(--color-clay);
+}
+
+.spa-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+}
+
+/* Crowdedness Indicator Animations */
+.indicator {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.indicator::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.indicator.low {
+    color: #4CAF50;
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.indicator.low::before {
+    background: #4CAF50;
+    animation: pulseGreen 2s infinite;
+}
+
+.indicator.moderate {
+    color: #FF9800;
+    background: rgba(255, 152, 0, 0.1);
+}
+
+.indicator.moderate::before {
+    background: #FF9800;
+    box-shadow: 0 0 10px #FF9800;
+    animation: yellowGlow 2s infinite alternate;
+}
+
+@keyframes yellowGlow {
+    from {
+        box-shadow: 0 0 5px #FF9800;
+    }
+
+    to {
+        box-shadow: 0 0 20px #FF9800, 0 0 40px rgba(255, 152, 0, 0.8);
+    }
+}
+
+.indicator.busy {
+    color: #f44336;
+    background: rgba(244, 67, 54, 0.1);
+}
+
+.indicator.busy::before {
+    background: #f44336;
+    animation: pulseRed 1.5s infinite;
+}
+
+@keyframes pulseGreen {
+    0% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 8px rgba(76, 175, 80, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+    }
+}
+
+@keyframes pulseRed {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+    }
+
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(244, 67, 54, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(244, 67, 54, 0);
+    }
+}
+
+/* Therapeutic Benefit Tags Enhancement */
+.tag {
+    font-size: 0.7rem;
+    color: var(--color-white);
+    background: linear-gradient(135deg, var(--color-forest), var(--color-forest-light));
+    padding: 5px 15px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition-premium);
+    border: none;
+}
+
+.tag:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(27, 43, 33, 0.2);
+}
+
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(18, 18, 18, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    background: var(--color-beige);
+    width: 90%;
+    max-width: 500px;
+    padding: 4rem;
+    position: relative;
+    transform: translateY(30px);
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.modal-close:hover {
+    opacity: 1;
+}
+
+.modal-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-content p {
+    color: var(--color-stone);
+    margin-bottom: 2rem;
+}
+
+.booking-form input {
+    width: 100%;
+    padding: 1.2rem;
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-family: var(--font-body);
+    margin-bottom: 2rem;
+    outline: none;
+}
+
+/* Page Transition Frames - Simple Downward Wipe */
+#page-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-forest);
+    z-index: 3000;
+    transform: translateY(-100%);
+    /* Start above */
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#page-transition-overlay.active {
+    transform: translateY(0);
+    /* Cover screen */
+}
+
+#page-transition-overlay.exit {
+    transform: translateY(100%);
+    /* Exit bottom */
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid var(--color-forest);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition-premium);
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background: var(--color-forest);
+    color: var(--color-white);
+}
+
+/* Filtering Animations */
+.spa-card {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.spa-card-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    position: absolute;
+    /* Take out of flow to prevent gaps */
+    visibility: hidden;
+}
+
+.spa-card-none {
+    display: none !important;
+}
+
+#no-results {
+    transition: opacity 0.5s ease;
+    text-align: center;
+    padding: 4rem 0;
+}
+
+/* Mineral Profile Table - Premium Refinement */
+.mineral-table-container {
+    background: var(--color-beige);
+    padding: 6rem;
+    margin-top: 4rem;
+    border: 1px solid rgba(27, 43, 33, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle architectural accent */
+.mineral-table-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--color-clay);
+}
+
+.mineral-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mineral-table th {
+    text-align: left;
+    padding: 2rem;
+    border-bottom: 2px solid var(--color-forest);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 0.7rem;
+    color: var(--color-stone);
+    font-weight: 400;
+}
+
+.mineral-table td {
+    padding: 3rem 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    vertical-align: middle;
+}
+
+.mineral-table tr:last-child td {
+    border-bottom: none;
+}
+
+.mineral-name {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    color: var(--color-forest);
+    line-height: 1;
+}
+
+.mineral-value {
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    color: var(--color-clay);
+    font-weight: 300;
+}
+
+.mineral-unit {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--color-stone);
+    margin-left: 0.8rem;
+    letter-spacing: 2px;
+}
+
+.mineral-benefit {
+    font-size: 1.1rem;
+    color: var(--color-stone);
+    max-width: 450px;
+    line-height: 1.7;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+.mineral-table tr:hover td {
+    background: rgba(27, 43, 33, 0.03);
+}
+
+/* Pricing Grid */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-top: 4rem;
+}
+
+.pricing-card {
+    background: var(--color-white);
+    padding: 4rem 3rem;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: var(--transition-premium);
+}
+
+.pricing-card:hover {
+    transform: translateY(-15px);
+    box-shadow: var(--shadow-hover);
+}
+
+.pricing-card .price {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    color: var(--color-clay);
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.pricing-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.pricing-card p {
+    color: var(--color-stone);
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .amenity-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero h1 {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 900px) {
+    section {
+        padding: 6rem 8%;
+    }
+
+    .filter-container {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .amenity-list {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 4rem;
+    }
+}

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Perfect Thermal Escape – ThermaStay</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav id="navbar" class="scrolled">
+        <a href="index.html" class="logo">ThermaStay</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="filters.html">Find a Spa</a>
+            <a href="Amenities.html">Amenities</a>
+        </div>
+    </nav>
+
+    <header class="hero" style="height: 60vh;">
+        <img src="images/hero_v2.png" alt="Thermal Escape" class="hero-img">
+        <div class="mist-overlay"></div>
+        <div class="steam"></div>
+        <div class="hero-content">
+            <p>Tailored Wellness</p>
+            <h1>Find Your Perfect Thermal Escape</h1>
+        </div>
+    </header>
+
+    <section>
+        <div class="filter-panel">
+            <div class="filter-control">
+                <label for="temp-filter">Temperature Range</label>
+                <select id="temp-filter">
+                    <option value="all">All Temperatures</option>
+                    <option value="30-40">30°C – 40°C</option>
+                    <option value="40-50">40°C – 50°C</option>
+                    <option value="50plus">50°C+</option>
+                </select>
+            </div>
+
+            <div class="filter-control">
+                <label>Accessibility & Features</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox" value="wheelchair" class="access-filter">
+                        Wheelchair Accessible</label>
+                    <label class="checkbox-item"><input type="checkbox" value="senior" class="access-filter"> Senior
+                        Friendly</label>
+                    <label class="checkbox-item"><input type="checkbox" value="private" class="access-filter"> Private
+                        Tubs Available</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="spa-grid" id="spa-listings">
+            <!-- Spa Card 1 -->
+            <div class="spa-card" data-temperature="35" data-accessibility="wheelchair senior">
+                <div class="spa-img-wrapper">
+                    <img src="images/spa1_v2.png" alt="Misty Forest Springs">
+                </div>
+                <div class="spa-info">
+                    <div class="spa-meta">
+                        <span class="temp-badge">35°C</span>
+                        <span class="indicator low">Crowd: Low</span>
+                    </div>
+                    <h3>Misty Forest Springs</h3>
+                    <div class="spa-location">📍 Palm Beach, Vashi</div>
+                    <div class="spa-tags">
+                        <span class="tag">Detox</span>
+                        <span class="tag">Muscle Relief</span>
+                        <span class="tag">Immunity</span>
+                    </div>
+                    <div class="card-actions"
+                        style="display: flex; gap: 1rem; align-items: center; margin-top: 1.5rem;">
+                        <a href="Amenities.html" class="btn-secondary" style="margin-top: 0;">View Amenities</a>
+                        <button class="btn-premium"
+                            style="padding: 0.8rem 1.5rem; font-size: 0.7rem; border-color: var(--color-forest); color: var(--color-forest);">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spa Card 2 -->
+            <div class="spa-card" data-temperature="45" data-accessibility="private senior">
+                <div class="spa-img-wrapper">
+                    <img src="images/spa2_v2.png" alt="Ember & Ice Sauna">
+                </div>
+                <div class="spa-info">
+                    <div class="spa-meta">
+                        <span class="temp-badge">45°C</span>
+                        <span class="indicator moderate">Crowd: Moderate</span>
+                    </div>
+                    <h3>Ember & Ice Sauna</h3>
+                    <div class="spa-location">📍 Central Park, Kharghar</div>
+                    <div class="spa-tags">
+                        <span class="tag">Circulation</span>
+                        <span class="tag">Recovery</span>
+                        <span class="tag">Skin Health</span>
+                    </div>
+                    <div class="card-actions"
+                        style="display: flex; gap: 1rem; align-items: center; margin-top: 1.5rem;">
+                        <a href="Amenities.html" class="btn-secondary" style="margin-top: 0;">View Amenities</a>
+                        <button class="btn-premium"
+                            style="padding: 0.8rem 1.5rem; font-size: 0.7rem; border-color: var(--color-forest); color: var(--color-forest);">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spa Card 3 -->
+            <div class="spa-card" data-temperature="38" data-accessibility="wheelchair private">
+                <div class="spa-img-wrapper">
+                    <img src="images/spa3_v2.png" alt="Cloud Valley Pavilion">
+                </div>
+                <div class="spa-info">
+                    <div class="spa-meta">
+                        <span class="temp-badge">38°C</span>
+                        <span class="indicator low">Crowd: Low</span>
+                    </div>
+                    <h3>Cloud Valley Pavilion</h3>
+                    <div class="spa-location">📍 Parsik Hills, CBD Belapur</div>
+                    <div class="spa-tags">
+                        <span class="tag">Stress Relief</span>
+                        <span class="tag">Mindfulness</span>
+                        <span class="tag">Sleep Aid</span>
+                    </div>
+                    <div class="card-actions"
+                        style="display: flex; gap: 1rem; align-items: center; margin-top: 1.5rem;">
+                        <a href="Amenities.html" class="btn-secondary" style="margin-top: 0;">View Amenities</a>
+                        <button class="btn-premium"
+                            style="padding: 0.8rem 1.5rem; font-size: 0.7rem; border-color: var(--color-forest); color: var(--color-forest);">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spa Card 4 -->
+            <div class="spa-card" data-temperature="52" data-accessibility="private senior">
+                <div class="spa-img-wrapper">
+                    <img src="images/spa4_v2.png" alt="Midnight Basalt Bath">
+                </div>
+                <div class="spa-info">
+                    <div class="spa-meta">
+                        <span class="temp-badge">52°C</span>
+                        <span class="indicator busy">Crowd: Busy</span>
+                    </div>
+                    <h3>Midnight Basalt Bath</h3>
+                    <div class="spa-location">📍 Wonders Park, Nerul</div>
+                    <div class="spa-tags">
+                        <span class="tag">Deep Tissue</span>
+                        <span class="tag">Mineral Soak</span>
+                        <span class="tag">Skin Therapy</span>
+                    </div>
+                    <div class="card-actions"
+                        style="display: flex; gap: 1rem; align-items: center; margin-top: 1.5rem;">
+                        <a href="Amenities.html" class="btn-secondary" style="margin-top: 0;">View Amenities</a>
+                        <button class="btn-premium"
+                            style="padding: 0.8rem 1.5rem; font-size: 0.7rem; border-color: var(--color-forest); color: var(--color-forest);">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spa Card 5 -->
+            <div class="spa-card" data-temperature="42" data-accessibility="wheelchair senior private">
+                <div class="spa-img-wrapper">
+                    <img src="images/spa5_v2.png" alt="Salt Stone Sanctuary">
+                </div>
+                <div class="spa-info">
+                    <div class="spa-meta">
+                        <span class="temp-badge">42°C</span>
+                        <span class="indicator moderate">Crowd: Moderate</span>
+                    </div>
+                    <h3>Salt Stone Sanctuary</h3>
+                    <div class="spa-location">📍 Jewel of Navi Mumbai, Seawoods</div>
+                    <div class="spa-tags">
+                        <span class="tag">Respiratory</span>
+                        <span class="tag">Energy Balance</span>
+                        <span class="tag">Joint Pain</span>
+                    </div>
+                    <div class="card-actions"
+                        style="display: flex; gap: 1rem; align-items: center; margin-top: 1.5rem;">
+                        <a href="Amenities.html" class="btn-secondary" style="margin-top: 0;">View Amenities</a>
+                        <button class="btn-premium"
+                            style="padding: 0.8rem 1.5rem; font-size: 0.7rem; border-color: var(--color-forest); color: var(--color-forest);">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spa Card 6 -->
+            <div class="spa-card" data-temperature="39" data-accessibility="wheelchair private">
+                <div class="spa-img-wrapper">
+                    <img src="images/spa6_v2.png" alt="Azure Cliff Infinity">
+                </div>
+                <div class="spa-info">
+                    <div class="spa-meta">
+                        <span class="temp-badge">39°C</span>
+                        <span class="indicator low">Crowd: Low</span>
+                    </div>
+                    <h3>Azure Cliff Infinity</h3>
+                    <div class="spa-location">📍 Knowledge Park, Airoli</div>
+                    <div class="spa-tags">
+                        <span class="tag">Anti-aging</span>
+                        <span class="tag">Hydration</span>
+                        <span class="tag">Metabolism</span>
+                    </div>
+                    <div class="card-actions"
+                        style="display: flex; gap: 1rem; align-items: center; margin-top: 1.5rem;">
+                        <a href="Amenities.html" class="btn-secondary" style="margin-top: 0;">View Amenities</a>
+                        <button class="btn-premium"
+                            style="padding: 0.8rem 1.5rem; font-size: 0.7rem; border-color: var(--color-forest); color: var(--color-forest);">Book
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="no-results" style="display: none; text-align: center; padding: 4rem 0;">
+            <p style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-stone);">
+                No thermal baths available in this temperature range.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">ThermaStay</div>
+            <div class="footer-nav">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="index.html">The Collection</a></li>
+                    <li><a href="filters.html">Find a Spa</a></li>
+                    <li><a href="Amenities.html">Amenities</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="copyright">THERMASTAY &copy; Made By Daksh Ranjan Srivastava</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
