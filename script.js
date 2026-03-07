@@ -95,51 +95,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.head.insertAdjacentHTML('beforeend', `<style>.visible { opacity: 1 !important; transform: translateY(0) !important; }</style>`);
 
-    // 5. BOOKING MODAL
-    const modalMarkup = `
-        <div class="modal-overlay" id="booking-modal">
-            <div class="modal-content" style="max-width: 450px;">
-                <span class="modal-close" onclick="document.getElementById('booking-modal').classList.remove('active'); document.body.style.overflow='auto';">&times;</span>
-                <div id="step-1">
-                    <h2>Complete Reservation</h2>
-                    <p>Finalizing your <span id="pkg-name" style="font-weight:600"></span>.</p>
-                    <div class="booking-form" style="display:flex; flex-direction:column; gap:1rem; margin-top:1rem;">
-                        <input type="text" id="u-name" placeholder="FULL NAME" class="modal-input">
-                        <input type="email" id="u-email" placeholder="EMAIL ADDRESS" class="modal-input">
-                        <input type="date" id="b-date" min="${new Date().toISOString().split('T')[0]}" class="modal-input">
-                        <button class="btn-premium" id="btn-conf" style="border-color:var(--color-forest); color:var(--color-forest); width:100%;">Confirm</button>
-                    </div>
-                </div>
-                <div id="step-success" style="display:none; text-align:center;">
-                    <div style="font-size:3rem;">🌿</div>
-                    <h2>Confirmed</h2>
-                    <p>Thanks, <span id="d-name" style="font-weight:600; color:var(--color-forest);"></span>. Booked successfully.</p>
-                    <button class="btn-premium" onclick="document.getElementById('booking-modal').classList.remove('active'); document.body.style.overflow='auto';" style="border-color:var(--color-forest); color:var(--color-forest); width:100%; margin-top:1rem;">Close</button>
-                </div>
-            </div>
-        </div>
-        <style>.modal-input { padding: 1rem; border: 1px solid rgba(0,0,0,0.1); font-family: var(--font-body); font-size: 0.7rem; letter-spacing: 1px; outline: none; }</style>
-    `;
-    document.body.insertAdjacentHTML('beforeend', modalMarkup);
+    // 5. AUTH & BOOKING SYSTEM (MINIMAL)
+    const store = {
+        get: (k) => JSON.parse(localStorage.getItem(k)),
+        set: (k, v) => localStorage.setItem(k, JSON.stringify(v)),
+        user: () => JSON.parse(localStorage.getItem('user'))
+    };
 
-    const m = document.getElementById('booking-modal'), s1 = document.getElementById('step-1'), ss = document.getElementById('step-success');
+    window.closeUI = () => { document.getElementById('overlay').style.display = 'none'; document.body.style.overflow = 'auto'; };
+
+    window.toggleAuth = (m) => {
+        document.getElementById('login-fields').style.display = m === 'login' ? 'block' : 'none';
+        document.getElementById('signup-fields').style.display = m === 'signup' ? 'block' : 'none';
+        document.querySelectorAll('.tabs button').forEach((b, i) => b.classList.toggle('active', (i === 0 && m === 'login') || (i === 1 && m === 'signup')));
+    };
+
+    const updateNav = () => {
+        const u = store.user(), link = document.getElementById('auth-link');
+        if (!link) return;
+        link.innerHTML = u ? `<div class="user-badge" style="color:var(--color-clay)"><span class="user-initials">${u.name[0]}</span> Account</div>` : 'Sign In';
+        link.onclick = (e) => { e.preventDefault(); u ? showProfile() : showAuth(); };
+    };
+
+    const showAuth = () => { document.getElementById('overlay').style.display = 'flex'; document.getElementById('auth-panel').style.display = 'block'; document.getElementById('profile-panel').style.display = 'none'; document.getElementById('book-panel').style.display = 'none'; };
+
+    const showProfile = () => {
+        const u = store.user();
+        document.getElementById('p-name').innerText = u.name;
+        document.getElementById('p-email').innerText = u.email;
+        const list = document.getElementById('b-list'), bookings = store.get(`b_${u.email}`) || [];
+        list.innerHTML = bookings.length ? bookings.map(b => `<div class="b-item"><div><p>${b.plan}</p><span style="font-size:0.6rem;opacity:0.6">${b.spa}</span></div><span>${b.date}</span></div>`).join('') : '<p>No bookings.</p>';
+        document.getElementById('overlay').style.display = 'flex'; document.getElementById('profile-panel').style.display = 'block'; document.getElementById('auth-panel').style.display = 'none'; document.getElementById('book-panel').style.display = 'none';
+    };
+
+    window.auth = (m) => {
+        const n = document.getElementById('s-name').value, e = document.getElementById(m === 'login' ? 'l-email' : 's-email').value;
+        if (e && (m === 'login' || n)) {
+            store.set('user', { name: n || e.split('@')[0], email: e });
+            updateNav(); closeUI();
+        } else alert('Fill all fields');
+    };
+
+    window.logout = () => { localStorage.removeItem('user'); updateNav(); closeUI(); };
+
+    window.confirmBooking = () => {
+        const d = document.getElementById('book-date').value, p = document.getElementById('target-plan').innerText, s = document.getElementById('target-spa').innerText, u = store.user();
+        if (d && u) {
+            const b = store.get(`b_${u.email}`) || [];
+            b.push({ plan: p, spa: s, date: d });
+            store.set(`b_${u.email}`, b);
+            alert('Your reservation for ' + p + ' at ' + s + ' is confirmed!'); closeUI();
+        } else alert('Select date');
+    };
 
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('.btn-premium');
-        if (btn && btn.closest('.pricing-card')) {
-            document.getElementById('pkg-name').innerText = btn.closest('.pricing-card').querySelector('h3').innerText;
-            s1.style.display = 'block'; ss.style.display = 'none';
-            m.classList.add('active'); document.body.style.overflow = 'hidden';
-        } else if (e.target === m) {
-            m.classList.remove('active'); document.body.style.overflow = 'auto';
+        if (btn && (btn.closest('.spa-card') || btn.closest('.pricing-card'))) {
+            const u = store.user();
+            if (!u) return showAuth();
+
+            const card = btn.closest('.spa-card');
+            const pricing = btn.closest('.pricing-card');
+
+            const planName = pricing ? pricing.querySelector('h3').innerText : "Full Access Pass";
+            const spaName = card ? card.querySelector('h3').innerText : (document.querySelector('h1')?.innerText.split(' Mineral')[0] || "ThermaStay Sanctuary");
+
+            document.getElementById('target-plan').innerText = planName;
+            document.getElementById('target-spa').innerText = spaName;
+
+            document.getElementById('overlay').style.display = 'flex';
+            document.getElementById('book-panel').style.display = 'block';
+            document.getElementById('auth-panel').style.display = 'none';
+            document.getElementById('profile-panel').style.display = 'none';
         }
     });
 
-    document.getElementById('btn-conf').onclick = () => {
-        const n = document.getElementById('u-name').value, e = document.getElementById('u-email').value, d = document.getElementById('b-date').value;
-        if (n && e && d) {
-            document.getElementById('d-name').innerText = n;
-            s1.style.display = 'none'; ss.style.display = 'block';
-        } else alert('Please fill all details.');
-    };
+    updateNav();
 });

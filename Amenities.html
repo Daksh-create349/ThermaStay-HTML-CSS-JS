@@ -16,6 +16,7 @@
             <a href="index.html">Home</a>
             <a href="filters.html">Find a Spa</a>
             <a href="Amenities.html">Amenities</a>
+            <a href="#" id="auth-link">Sign In</a>
         </div>
     </nav>
 
@@ -193,6 +194,44 @@
         </div>
         <p class="copyright">THERMASTAY &copy; Made By Daksh Ranjan Srivastava</p>
     </footer>
+
+    <!-- Auth & Booking UI (Integrated) -->
+    <div class="overlay" id="overlay">
+        <div class="panel" id="auth-panel">
+            <span class="close" onclick="closeUI()">&times;</span>
+            <div class="tabs">
+                <button class="active" onclick="toggleAuth('login')">Login</button>
+                <button onclick="toggleAuth('signup')">Sign Up</button>
+            </div>
+            <div id="login-fields">
+                <input type="email" id="l-email" placeholder="EMAIL">
+                <button class="btn-premium" onclick="auth('login')">Sign In</button>
+            </div>
+            <div id="signup-fields" style="display:none">
+                <input type="text" id="s-name" placeholder="NAME">
+                <input type="email" id="s-email" placeholder="EMAIL">
+                <button class="btn-premium" onclick="auth('signup')">Create</button>
+            </div>
+        </div>
+
+        <div class="panel" id="profile-panel" style="display:none">
+            <span class="close" onclick="closeUI()">&times;</span>
+            <h2 id="p-name">Profile</h2>
+            <p id="p-email"></p>
+            <h3>My Bookings</h3>
+            <div id="b-list" class="b-history"></div>
+            <button class="btn-secondary" onclick="logout()">Sign Out</button>
+        </div>
+
+        <div class="panel" id="book-panel" style="display:none">
+            <span class="close" onclick="closeUI()">&times;</span>
+            <h2>Book <span id="target-plan"></span></h2>
+            <p style="text-transform:uppercase; letter-spacing:1px; font-size:0.7rem; opacity:0.6; margin-bottom:2rem;">
+                At <span id="target-spa"></span></p>
+            <input type="date" id="book-date" min="${new Date().toISOString().split('T')[0]}">
+            <button class="btn-premium" onclick="confirmBooking()">Confirm Reservation</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

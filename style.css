@@ -913,3 +913,142 @@ footer {
         gap: 4rem;
     }
 }
+
+/* Integrated UI Panels */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(15px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel {
+    background: var(--color-beige);
+    padding: 4rem;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    color: var(--color-forest);
+}
+
+.panel h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-forest);
+}
+
+.panel h3 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 2rem 0 1rem;
+    color: var(--color-clay);
+}
+
+.panel input {
+    width: 100%;
+    padding: 1.2rem;
+    background: var(--color-white);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    outline: none;
+    font-family: var(--font-body);
+    color: var(--color-dark);
+}
+
+.panel .btn-premium {
+    border-color: var(--color-forest);
+    color: var(--color-forest);
+    width: 100%;
+}
+
+.panel .btn-premium:hover {
+    background: var(--color-forest);
+    color: var(--color-white);
+}
+
+.close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.5;
+    color: var(--color-forest);
+}
+
+.tabs {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.tabs button {
+    background: none;
+    border: none;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    opacity: 0.5;
+    padding-bottom: 0.5rem;
+    color: var(--color-forest);
+}
+
+.tabs button.active {
+    opacity: 1;
+    border-bottom: 1px solid var(--color-clay);
+}
+
+.b-history {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 2rem;
+}
+
+.b-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(27, 43, 33, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.b-item p {
+    font-size: 0.8rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.b-item span {
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    color: inherit;
+}
+
+.user-initials {
+    width: 32px;
+    height: 32px;
+    background: var(--color-clay);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
