@@ -1124,6 +1124,53 @@ footer {
     font-weight: 400;
 }
 
+/* Mineral Table Responsive */
+@media (max-width: 768px) {
+    .mineral-table thead {
+        display: none; /* Hide header row on mobile */
+    }
+
+    .mineral-table tr {
+        display: block;
+        padding: 2rem 0;
+        border-bottom: 1px solid var(--border-primary);
+    }
+
+    .mineral-table td {
+        display: block;
+        padding: 0.5rem 0;
+        border: none;
+        position: relative;
+    }
+
+    .mineral-table td::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--accent-primary);
+        margin-bottom: 0.5rem;
+        opacity: 0.7;
+    }
+
+    .mineral-table .mineral-name {
+        font-size: 1.8rem;
+    }
+
+    .mineral-table .mineral-value {
+        font-size: 1.5rem;
+        margin: 0.5rem 0;
+    }
+
+    .mineral-table .mineral-benefit {
+        font-size: 0.95rem;
+        max-width: 100%;
+        font-style: normal;
+        margin-top: 0.5rem;
+    }
+}
+
 /* Mobile Nav & Responsiveness */
 .mobile-menu-btn {
     display: none;
