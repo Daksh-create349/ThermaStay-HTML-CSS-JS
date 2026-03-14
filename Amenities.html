@@ -5,10 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mineral & Facility Details – ThermaStay</title>
+    <script>
+        // Immediate theme check to prevent flicker
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <div id="page-transition-overlay" class="active"></div>
+
 
     <nav id="navbar" class="scrolled">
         <a href="index.html" class="logo">ThermaStay</a>
@@ -16,14 +23,18 @@
             <a href="index.html">Home</a>
             <a href="filters.html">Find a Spa</a>
             <a href="Amenities.html">Amenities</a>
-            <a href="#" id="auth-link">Sign In</a>
+            <a href="#" id="auth-link" class="glass-link">Sign In</a>
         </div>
     </nav>
 
-    <header class="hero" style="background-color: #3d3b36; height: 60vh;">
+    <header class="hero hero-secondary">
         <img src="images/amenity_hero.png" alt="Mineral Details" class="hero-img" style="opacity: 0.6;">
         <div class="mist-overlay"></div>
-        <div class="steam"></div>
+        <div class="steam">
+            <div class="steam-layer"></div>
+            <div class="steam-layer"></div>
+            <div class="steam-layer"></div>
+        </div>
         <div class="hero-content">
             <p>Composition & Facilities</p>
             <h1>Spa Mineral & Facility Details</h1>
@@ -107,7 +118,7 @@
         </div>
     </section>
 
-    <section id="amenities-grid" style="background: var(--color-white);">
+    <section id="amenities-grid" class="section-cta">
         <div class="section-title">
             <h2>Section 2: Amenities Grid</h2>
             <p>Exclusive facilities designed for absolute serenity and physical recovery.</p>
@@ -158,41 +169,66 @@
                 <span class="price">₹9,900</span>
                 <h3>Day Pass</h3>
                 <p>Full access to all thermal pools, saunas, and general meditation gardens from 8AM to 8PM.</p>
-                <a href="#" class="btn-premium"
-                    style="border-color: var(--color-forest); color: var(--color-forest);">Book Now</a>
+                <a href="#" class="btn-premium">Book Now</a>
             </div>
 
             <div class="pricing-card">
                 <span class="price">₹37,500</span>
                 <h3>Overnight Stay</h3>
                 <p>Includes private cabin, 24hr spring access, organic breakfast, and a personalized mineral soak.</p>
-                <a href="#" class="btn-premium"
-                    style="border-color: var(--color-forest); color: var(--color-forest);">Book Now</a>
+                <a href="#" class="btn-premium">Book Now</a>
             </div>
 
             <div class="pricing-card">
                 <span class="price">₹6,900</span>
                 <h3>Mud Treatment Add-On</h3>
                 <p>A 60-minute guided volcanic mud application and scalp massage ritual.</p>
-                <a href="#" class="btn-premium"
-                    style="border-color: var(--color-forest); color: var(--color-forest);">Book Now</a>
+                <a href="#" class="btn-premium">Book Now</a>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="footer-content">
-            <div class="footer-logo">ThermaStay</div>
+            <div class="footer-brand">
+                <h2 class="footer-logo">ThermaStay</h2>
+                <p class="brand-bio">Curating the world's most architectural wellness retreats. Experience the intersection of brutalist design and natural thermal healing.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">IG</a>
+                    <a href="#" aria-label="LinkedIn">LI</a>
+                    <a href="#" aria-label="Twitter">TW</a>
+                </div>
+            </div>
             <div class="footer-nav">
-                <h4>Explore</h4>
+                <h4>The Collection</h4>
                 <ul>
-                    <li><a href="index.html">The Collection</a></li>
+                    <li><a href="index.html">The Lodges</a></li>
                     <li><a href="filters.html">Find a Spa</a></li>
                     <li><a href="Amenities.html">Amenities</a></li>
+                    <li><a href="#">Member Portal</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="#">Inquiries</a></li>
+                    <li><a href="#">Partnerships</a></li>
+                    <li><a href="#">Press Kit</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav">
+                <h4>Locations</h4>
+                <ul>
+                    <li><a href="#">North Navi Mumbai, IN</a></li>
+                    <li><a href="#">Reykjavík, IS</a></li>
+                    <li><a href="#">Kyoto, JP</a></li>
                 </ul>
             </div>
         </div>
-        <p class="copyright">THERMASTAY &copy; Made By Daksh Ranjan Srivastava</p>
+        <div class="footer-bottom">
+            <p class="copyright">THERMASTAY &copy; 2026 – ARCHITECTURAL WELLNESS</p>
+            <p class="designer-tag">DESIGN BY DAKSH RANJAN SRIVASTAVA</p>
+        </div>
     </footer>
 
     <!-- Auth & Booking UI (Integrated) -->

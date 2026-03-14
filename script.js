@@ -1,174 +1,301 @@
-// ThermaStay - Interactive Premium Scripts
+// ThermaStay - Premium Experience Engine
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. UTILITIES & NAVIGATION
-    const scroll = (id) => {
-        const target = document.querySelector(id);
-        if (target) window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+    // 1. STATE & UTILITIES
+    const state = {
+        isTransitioning: false,
+        user: JSON.parse(localStorage.getItem('user'))
     };
 
-    const nav = document.getElementById('navbar');
-    window.onscroll = () => nav.classList.toggle('scrolled', window.scrollY > 50);
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => document.querySelectorAll(s);
 
-    if (window.location.hash === '#pricing') setTimeout(() => scroll('#pricing'), 800);
+    const smoothScroll = (id) => {
+        const target = $(id);
+        if (target) window.scrollTo({ top: target.offsetTop - 100, behavior: 'smooth' });
+    };
 
-    // 2. PAGE TRANSITIONS & DELEGATION
-    const overlay = document.createElement('div');
-    overlay.id = 'page-transition-overlay';
-    overlay.classList.add('active');
-    document.body.appendChild(overlay);
+    // 2. PREMIUM NAVIGATION
+    const nav = $('#navbar');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 80);
+    }, { passive: true });
 
-    window.addEventListener('load', () => {
-        setTimeout(() => overlay.classList.add('exit'), 100);
-        setTimeout(() => overlay.style.display = 'none', 700);
-    });
+    // 3. ENHANCED PAGE TRANSITIONS
+    const initTransitionOverlay = () => {
+        const overlay = $('#page-transition-overlay');
+        if (!overlay) return;
+        
+        // Entrance animation (reveal page)
+        requestAnimationFrame(() => {
+            overlay.classList.add('exit');
+            setTimeout(() => {
+                overlay.classList.remove('active');
+            }, 1000); // Match CSS transition time
+        });
+    };
 
+    initTransitionOverlay();
+
+    const navigate = (href) => {
+        if (state.isTransitioning) return;
+        state.isTransitioning = true;
+
+        const overlay = $('#page-transition-overlay');
+        overlay.style.transformOrigin = 'top'; // Wipe downwards on click
+        overlay.classList.remove('exit');
+        overlay.classList.add('active');
+
+        setTimeout(() => {
+            window.location.href = href;
+        }, 1100); // Slightly more than CSS to ensure total cover
+    };
+
+    // Global Link Interceptor
     document.addEventListener('click', (e) => {
         const link = e.target.closest('a');
-        if (!link) return;
+        if (!link || link.getAttribute('target') === '_blank') return;
 
         const href = link.getAttribute('href');
-        if (!href) return;
+        if (!href || href === '#') return;
 
-        // Smooth Scroll (Same page)
         if (href.startsWith('#')) {
             e.preventDefault();
-            scroll(href);
-        }
-        // Cross-page Hash
-        else if (href.includes('.html#')) {
-            const [page, hash] = href.split('#');
-            if (window.location.pathname.endsWith(page)) {
-                e.preventDefault();
-                scroll('#' + hash);
-            }
-        }
-        // Transitions
-        else if (href.endsWith('.html')) {
+            smoothScroll(href);
+        } else if (href.endsWith('.html') || href.includes('.html#')) {
             e.preventDefault();
-            overlay.style.display = 'block';
-            overlay.classList.remove('exit', 'active');
-            setTimeout(() => overlay.classList.add('active'), 10);
-            setTimeout(() => window.location.href = href, 600);
+            navigate(href);
         }
     });
 
-    // 3. FILTER LOGIC
-    const filters = { temp: document.getElementById('temp-filter'), access: document.querySelectorAll('.access-filter'), cards: document.querySelectorAll('.spa-card'), none: document.getElementById('no-results') };
+    // 4. THEME & MOBILE MENU
+    const setupThemeAndMobile = () => {
+        const themeToggle = document.createElement('button');
+        themeToggle.className = 'theme-toggle';
+        themeToggle.innerHTML = `
+            <svg class="sun-icon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>
+        `;
+        
+        const navLinks = $('.nav-links');
+        // Theme toggle will be handled below to be always visible
 
-    const applyFilters = () => {
-        if (!filters.temp) return;
-        const selectedTemp = filters.temp.value;
-        const selectedAccess = [...filters.access].filter(cb => cb.checked).map(cb => cb.value);
-        let visible = 0;
+        const updateToggleIcon = (theme) => {
+            themeToggle.innerHTML = theme === 'light' ? 
+                `<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>` :
+                `<svg viewBox="0 0 24 24"><path d="M12.1 2.9C6.8 2.9 2.5 7.1 2.5 12.4s4.3 9.5 9.6 9.5c4.1 0 7.6-2.5 9-6.2-.4.1-.8.2-1.3.2-4.5 0-8.1-3.6-8.1-8.1 0-1.9.7-3.6 1.8-5-.5-.1-1-.1-1.4-.1z"/></svg>`;
+        };
 
-        filters.cards.forEach(card => {
-            const t = parseInt(card.dataset.temperature);
-            const a = card.dataset.accessibility.split(' ');
-            const tMatch = selectedTemp === 'all' || (selectedTemp === '30-40' && t >= 30 && t <= 40) || (selectedTemp === '40-50' && t > 40 && t <= 50) || (selectedTemp === '50plus' && t > 50);
-            const aMatch = selectedAccess.every(x => a.includes(x));
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        updateToggleIcon(currentTheme);
 
-            card.classList.toggle('spa-card-none', !(tMatch && aMatch));
-            card.classList.toggle('spa-card-hidden', !(tMatch && aMatch));
-            if (tMatch && aMatch) visible++;
+        themeToggle.addEventListener('click', () => {
+            const newTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleIcon(newTheme);
         });
 
-        if (filters.none) {
-            filters.none.style.display = visible ? 'none' : 'block';
-            filters.none.style.opacity = visible ? '0' : '1';
+        // Mobile Menu
+        const mobileBtn = document.createElement('button');
+        mobileBtn.className = 'mobile-menu-btn';
+        mobileBtn.innerHTML = '<span></span><span></span><span></span>';
+        
+        const navbar = $('#navbar');
+        if (navbar) {
+            navbar.appendChild(themeToggle); // Keep theme toggle always visible
+            navbar.insertBefore(mobileBtn, themeToggle);
+        }
+
+        mobileBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileBtn.classList.toggle('active');
+        });
+
+        // Close mobile menu on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileBtn.classList.remove('active');
+            });
+        });
+    };
+
+    setupThemeAndMobile();
+
+    // 4. STAGGERED REVEAL SYSTEM
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    const setupReveals = () => {
+        $$('.spa-card, .amenity-item, .section-title, .filter-panel').forEach((el, i) => {
+            el.classList.add('reveal-item');
+            el.style.transitionDelay = `${(i % 3) * 0.15}s`;
+            revealObserver.observe(el);
+        });
+    };
+
+    // Inject Reveal CSS
+    const revealStyles = `
+        .reveal-item { opacity: 0; transform: translateY(30px); transition: var(--transition-premium); }
+        .reveal-item.revealed { opacity: 1; transform: translateY(0); }
+        .spa-card-none { display: none !important; }
+    `;
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = revealStyles;
+    document.head.appendChild(styleSheet);
+
+    setupReveals();
+
+    // 5. MAGNETIC INTERACTION (SUBTLE)
+    const setupMagneticElements = () => {
+        $$('.btn-premium, .logo, .theme-toggle').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                el.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = `translate(0, 0)`;
+            });
+        });
+    };
+    setupMagneticElements();
+
+    // 6. FILTERING ENGINE (SMOOTH)
+    const filterState = {
+        temp: $('#temp-filter'),
+        access: $$('.access-filter'),
+        cards: $$('.spa-card'),
+        noResults: $('#no-results')
+    };
+
+    const applyFilters = () => {
+        if (!filterState.temp) return;
+        
+        const selectedTemp = filterState.temp.value;
+        const selectedAccess = [...filterState.access].filter(cb => cb.checked).map(cb => cb.value);
+        let visibleCount = 0;
+
+        filterState.cards.forEach(card => {
+            const t = parseInt(card.dataset.temperature);
+            const a = card.dataset.accessibility?.split(' ') || [];
+            
+            const tMatch = selectedTemp === 'all' || 
+                          (selectedTemp === '30-40' && t >= 30 && t <= 40) || 
+                          (selectedTemp === '40-50' && t > 40 && t <= 50) || 
+                          (selectedTemp === '50plus' && t > 50);
+            
+            const aMatch = selectedAccess.every(x => a.includes(x));
+            const shouldShow = tMatch && aMatch;
+
+            if (shouldShow) {
+                card.classList.remove('spa-card-none');
+                setTimeout(() => card.style.opacity = '1', 10);
+                visibleCount++;
+            } else {
+                card.style.opacity = '0';
+                setTimeout(() => card.classList.add('spa-card-none'), 500);
+            }
+        });
+
+        if (filterState.noResults) {
+            filterState.noResults.style.display = visibleCount ? 'none' : 'block';
         }
     };
 
-    if (filters.temp) {
-        filters.temp.onchange = applyFilters;
-        filters.access.forEach(cb => cb.onchange = applyFilters);
+    if (filterState.temp) {
+        filterState.temp.addEventListener('change', applyFilters);
+        filterState.access.forEach(cb => cb.addEventListener('change', applyFilters));
     }
 
-    // 4. ANIMATIONS (OBSERVER)
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    document.querySelectorAll('.spa-card, .amenity-item, .section-title').forEach(el => {
-        Object.assign(el.style, { opacity: '0', transform: 'translateY(40px)', transition: 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)' });
-        observer.observe(el);
-    });
-
-    document.head.insertAdjacentHTML('beforeend', `<style>.visible { opacity: 1 !important; transform: translateY(0) !important; }</style>`);
-
-    // 5. AUTH & BOOKING SYSTEM (MINIMAL)
-    const store = {
-        get: (k) => JSON.parse(localStorage.getItem(k)),
-        set: (k, v) => localStorage.setItem(k, JSON.stringify(v)),
-        user: () => JSON.parse(localStorage.getItem('user'))
+    // 7. AUTH & BOOKING SYSTEM
+    const ui = {
+        overlay: $('#overlay'),
+        panels: {
+            auth: $('#auth-panel'),
+            profile: $('#profile-panel'),
+            book: $('#book-panel')
+        },
+        updateNav: () => {
+            const u = state.user;
+            const link = $('#auth-link');
+            if (!link) return;
+            link.innerHTML = u ? `<span class="user-badge">${u.name[0]}</span>` : 'Sign In';
+            link.onclick = (e) => { e.preventDefault(); u ? ui.showPanel('profile') : ui.showPanel('auth'); };
+        },
+        showPanel: (name) => {
+            ui.overlay.style.display = 'flex';
+            Object.keys(ui.panels).forEach(p => {
+                if (ui.panels[p]) ui.panels[p].style.display = p === name ? 'block' : 'none';
+            });
+            document.body.style.overflow = 'hidden';
+            
+            if (name === 'profile' && state.user) {
+                $('#p-name').innerText = state.user.name;
+                $('#p-email').innerText = state.user.email;
+                const list = $('#b-list');
+                const bookings = JSON.parse(localStorage.getItem(`b_${state.user.email}`)) || [];
+                list.innerHTML = bookings.length ? 
+                    bookings.map(b => `<div class="b-item"><div><p>${b.plan}</p><span>${b.spa}</span></div><span>${b.date}</span></div>`).join('') : 
+                    '<p class="empty-msg">No active reservations.</p>';
+            }
+        },
+        close: () => {
+            ui.overlay.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
     };
 
-    window.closeUI = () => { document.getElementById('overlay').style.display = 'none'; document.body.style.overflow = 'auto'; };
-
+    window.closeUI = ui.close;
     window.toggleAuth = (m) => {
-        document.getElementById('login-fields').style.display = m === 'login' ? 'block' : 'none';
-        document.getElementById('signup-fields').style.display = m === 'signup' ? 'block' : 'none';
-        document.querySelectorAll('.tabs button').forEach((b, i) => b.classList.toggle('active', (i === 0 && m === 'login') || (i === 1 && m === 'signup')));
-    };
-
-    const updateNav = () => {
-        const u = store.user(), link = document.getElementById('auth-link');
-        if (!link) return;
-        link.innerHTML = u ? `<div class="user-badge" style="color:var(--color-clay)"><span class="user-initials">${u.name[0]}</span> Account</div>` : 'Sign In';
-        link.onclick = (e) => { e.preventDefault(); u ? showProfile() : showAuth(); };
-    };
-
-    const showAuth = () => { document.getElementById('overlay').style.display = 'flex'; document.getElementById('auth-panel').style.display = 'block'; document.getElementById('profile-panel').style.display = 'none'; document.getElementById('book-panel').style.display = 'none'; };
-
-    const showProfile = () => {
-        const u = store.user();
-        document.getElementById('p-name').innerText = u.name;
-        document.getElementById('p-email').innerText = u.email;
-        const list = document.getElementById('b-list'), bookings = store.get(`b_${u.email}`) || [];
-        list.innerHTML = bookings.length ? bookings.map(b => `<div class="b-item"><div><p>${b.plan}</p><span style="font-size:0.6rem;opacity:0.6">${b.spa}</span></div><span>${b.date}</span></div>`).join('') : '<p>No bookings.</p>';
-        document.getElementById('overlay').style.display = 'flex'; document.getElementById('profile-panel').style.display = 'block'; document.getElementById('auth-panel').style.display = 'none'; document.getElementById('book-panel').style.display = 'none';
+        $('#login-fields').style.display = m === 'login' ? 'block' : 'none';
+        $('#signup-fields').style.display = m === 'signup' ? 'block' : 'none';
+        $$('.tabs button').forEach((b, i) => b.classList.toggle('active', (i === 0 && m === 'login') || (i === 1 && m === 'signup')));
     };
 
     window.auth = (m) => {
-        const n = document.getElementById('s-name').value, e = document.getElementById(m === 'login' ? 'l-email' : 's-email').value;
+        const n = $('#s-name')?.value, e = $(m === 'login' ? '#l-email' : '#s-email')?.value;
         if (e && (m === 'login' || n)) {
-            store.set('user', { name: n || e.split('@')[0], email: e });
-            updateNav(); closeUI();
-        } else alert('Fill all fields');
+            state.user = { name: n || e.split('@')[0], email: e };
+            localStorage.setItem('user', JSON.stringify(state.user));
+            ui.updateNav(); ui.close();
+        } else alert('Credentials required');
     };
 
-    window.logout = () => { localStorage.removeItem('user'); updateNav(); closeUI(); };
+    window.logout = () => { localStorage.removeItem('user'); state.user = null; ui.updateNav(); ui.close(); };
 
     window.confirmBooking = () => {
-        const d = document.getElementById('book-date').value, p = document.getElementById('target-plan').innerText, s = document.getElementById('target-spa').innerText, u = store.user();
+        const d = $('#book-date').value, p = $('#target-plan').innerText, s = $('#target-spa').innerText, u = state.user;
         if (d && u) {
-            const b = store.get(`b_${u.email}`) || [];
+            const b = JSON.parse(localStorage.getItem(`b_${u.email}`)) || [];
             b.push({ plan: p, spa: s, date: d });
-            store.set(`b_${u.email}`, b);
-            alert('Your reservation for ' + p + ' at ' + s + ' is confirmed!'); closeUI();
-        } else alert('Select date');
+            localStorage.setItem(`b_${u.email}`, JSON.stringify(b));
+            alert('Reservation Confirmed'); ui.close();
+        } else alert('Please select a date');
     };
 
+    // Booking Delegation
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('.btn-premium');
         if (btn && (btn.closest('.spa-card') || btn.closest('.pricing-card'))) {
-            const u = store.user();
-            if (!u) return showAuth();
+            if (!state.user) return ui.showPanel('auth');
 
             const card = btn.closest('.spa-card');
             const pricing = btn.closest('.pricing-card');
+            
+            $('#target-plan').innerText = pricing ? pricing.querySelector('h3').innerText : "Full Access Pass";
+            $('#target-spa').innerText = card ? card.querySelector('h3').innerText : ($('h1')?.innerText.split(' Mineral')[0] || "ThermaStay Sanctuary");
 
-            const planName = pricing ? pricing.querySelector('h3').innerText : "Full Access Pass";
-            const spaName = card ? card.querySelector('h3').innerText : (document.querySelector('h1')?.innerText.split(' Mineral')[0] || "ThermaStay Sanctuary");
-
-            document.getElementById('target-plan').innerText = planName;
-            document.getElementById('target-spa').innerText = spaName;
-
-            document.getElementById('overlay').style.display = 'flex';
-            document.getElementById('book-panel').style.display = 'block';
-            document.getElementById('auth-panel').style.display = 'none';
-            document.getElementById('profile-panel').style.display = 'none';
+            ui.showPanel('book');
         }
     });
 
-    updateNav();
+    ui.updateNav();
 });

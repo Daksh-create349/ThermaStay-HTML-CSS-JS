@@ -5,10 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Your Perfect Thermal Escape – ThermaStay</title>
+    <script>
+        // Immediate theme check to prevent flicker
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <div id="page-transition-overlay" class="active"></div>
+
 
     <nav id="navbar" class="scrolled">
         <a href="index.html" class="logo">ThermaStay</a>
@@ -16,14 +23,18 @@
             <a href="index.html">Home</a>
             <a href="filters.html">Find a Spa</a>
             <a href="Amenities.html">Amenities</a>
-            <a href="#" id="auth-link">Sign In</a>
+            <a href="#" id="auth-link" class="glass-link">Sign In</a>
         </div>
     </nav>
 
     <header class="hero" style="height: 60vh;">
         <img src="images/hero_v2.png" alt="Thermal Escape" class="hero-img">
         <div class="mist-overlay"></div>
-        <div class="steam"></div>
+        <div class="steam">
+            <div class="steam-layer"></div>
+            <div class="steam-layer"></div>
+            <div class="steam-layer"></div>
+        </div>
         <div class="hero-content">
             <p>Tailored Wellness</p>
             <h1>Find Your Perfect Thermal Escape</h1>
@@ -31,7 +42,7 @@
     </header>
 
     <section>
-        <div class="filter-panel">
+        <div class="filter-panel glass">
             <div class="filter-control">
                 <label for="temp-filter">Temperature Range</label>
                 <select id="temp-filter">
@@ -41,6 +52,7 @@
                     <option value="50plus">50°C+</option>
                 </select>
             </div>
+            <!-- ... -->
 
             <div class="filter-control">
                 <label>Accessibility & Features</label>
@@ -238,7 +250,7 @@
                 </ul>
             </div>
         </div>
-        <p class="copyright">THERMASTAY &copy; Made By Daksh Ranjan Srivastava</p>
+        <p class="copyright">THERMASTAY &copy; 2026 – ARCHITECTURAL WELLNESS</p>
     </footer>
 
     <!-- Auth & Booking UI (Integrated) -->
