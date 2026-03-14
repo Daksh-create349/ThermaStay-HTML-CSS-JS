@@ -14,6 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target) window.scrollTo({ top: target.offsetTop - 100, behavior: 'smooth' });
     };
 
+    // Update Amenities Page Header
+    const updateAmenitiesHeader = () => {
+        const heroTitle = $('.hero h1');
+        const savedSpa = localStorage.getItem('selectedSpa');
+        // Only update if we're on the Amenities page (checking for specific secondary hero text or structure might be better, but assuming H1 is "Spa Mineral & Facility Details")
+        if (heroTitle && heroTitle.innerText.includes('Spa Mineral & Facility Details') && savedSpa) {
+            heroTitle.innerText = `${savedSpa} - Mineral & Facility Details`;
+        }
+    };
+    updateAmenitiesHeader();
+
     // 2. PREMIUM NAVIGATION
     const nav = $('#navbar');
     window.addEventListener('scroll', () => {
@@ -54,6 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
         const link = e.target.closest('a');
         if (!link || link.getAttribute('target') === '_blank') return;
+
+        if (link.closest('.spa-card')) {
+            const card = link.closest('.spa-card');
+            const spaName = card.querySelector('h3').innerText;
+            localStorage.setItem('selectedSpa', spaName);
+        }
 
         const href = link.getAttribute('href');
         if (!href || href === '#') return;
@@ -284,14 +301,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Booking Delegation
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('.btn-premium');
-        if (btn && (btn.closest('.spa-card') || btn.closest('.pricing-card'))) {
+        if (btn && btn.closest('.pricing-card')) {
+            e.preventDefault();
             if (!state.user) return ui.showPanel('auth');
 
-            const card = btn.closest('.spa-card');
             const pricing = btn.closest('.pricing-card');
+            const savedSpa = localStorage.getItem('selectedSpa');
             
-            $('#target-plan').innerText = pricing ? pricing.querySelector('h3').innerText : "Full Access Pass";
-            $('#target-spa').innerText = card ? card.querySelector('h3').innerText : ($('h1')?.innerText.split(' Mineral')[0] || "ThermaStay Sanctuary");
+            $('#target-plan').innerText = pricing.querySelector('h3').innerText;
+            $('#target-spa').innerText = savedSpa ? savedSpa : ($('h1')?.innerText.split(' Mineral')[0] || "ThermaStay Sanctuary");
 
             ui.showPanel('book');
         }
