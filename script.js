@@ -36,29 +36,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const overlay = $('#page-transition-overlay');
         if (!overlay) return;
         
-        // Entrance animation (reveal page)
-        requestAnimationFrame(() => {
+        // "Just at the beginning": Play animation only once per session
+        if (sessionStorage.getItem('hasSeenEntry')) {
+            overlay.style.display = 'none';
+            overlay.classList.remove('active');
+            return;
+        }
+
+        // Entrance animation (let the foggy reveal play, then wipe away)
+        setTimeout(() => {
             overlay.classList.add('exit');
             setTimeout(() => {
                 overlay.classList.remove('active');
-            }, 1000); // Match CSS transition time
-        });
+                sessionStorage.setItem('hasSeenEntry', 'true');
+            }, 2000); // Time for the final wipe-up transition
+        }, 3000); // Display the foggy reveal for 3 seconds before exiting
     };
 
     initTransitionOverlay();
 
     const navigate = (href) => {
-        if (state.isTransitioning) return;
-        state.isTransitioning = true;
-
-        const overlay = $('#page-transition-overlay');
-        overlay.style.transformOrigin = 'top'; // Wipe downwards on click
-        overlay.classList.remove('exit');
-        overlay.classList.add('active');
-
-        setTimeout(() => {
-            window.location.href = href;
-        }, 1100); // Slightly more than CSS to ensure total cover
+        // Instant navigation as per user preference ("Just in the beginning")
+        window.location.href = href;
     };
 
     // Global Link Interceptor

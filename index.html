@@ -16,7 +16,13 @@
 
 <body>
     <div id="page-transition-overlay" class="active">
-        <img src="images/Therma.png" alt="ThermaStay Logo" class="transition-logo">
+        <div class="overlay-fog">
+            <div class="fog-layer"></div>
+            <div class="fog-layer"></div>
+            <div class="fog-layer"></div>
+        </div>
+        <img src="images/Therma.png" alt="ThermaStay Logo" class="transition-logo logo-light">
+        <img src="images/Thermablack.png" alt="ThermaStay Logo" class="transition-logo logo-dark">
     </div>
 
 
@@ -107,12 +113,9 @@
             <h2>Stay Mindful</h2>
             <p>Seasonal updates on new sanctuary openings and exclusive wellness ceremonies.</p>
         </div>
-        <div
-            style="display: flex; justify-content: center; gap: 0; max-width: 600px; margin: 0 auto; border-bottom: 1px solid var(--color-dark);">
-            <input type="email" placeholder="ENTER EMAIL FOR PRIVILEGED ACCESS"
-                style="padding: 1.5rem 0; border: none; background: transparent; flex: 1; font-family: var(--font-body); letter-spacing: 2px; font-size: 0.7rem; outline: none;">
-            <button
-                style="background: transparent; border: none; font-family: var(--font-body); letter-spacing: 2px; font-size: 0.7rem; cursor: pointer; padding: 0 1rem;">JOIN</button>
+        <div class="newsletter-form">
+            <input type="email" placeholder="ENTER EMAIL FOR PRIVILEGED ACCESS" class="newsletter-input">
+            <button class="newsletter-btn">JOIN</button>
         </div>
     </section>
 
