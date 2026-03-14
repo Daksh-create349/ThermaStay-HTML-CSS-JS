@@ -452,6 +452,11 @@ nav.scrolled .nav-links a:hover {
     color: var(--btn-text-hover);
 }
 
+.btn-sm {
+    padding: 0.8rem 1.5rem !important;
+    font-size: 0.7rem !important;
+}
+
 .hero p {
     font-size: 1.1rem;
     margin-bottom: 3rem;
