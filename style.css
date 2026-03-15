@@ -614,12 +614,9 @@ section {
 
 .spa-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
 }
 
-[data-theme="dark"] .spa-card:hover {
-    box-shadow: 0 30px 60px rgba(212, 175, 55, 0.08); /* Subtle gold glow in dark mode */
-}
+/* Removed box-shadow from dark mode .spa-card:hover as well */
 
 .spa-card img {
     width: 100%;
