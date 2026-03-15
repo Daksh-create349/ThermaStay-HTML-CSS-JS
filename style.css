@@ -1775,3 +1775,16 @@ footer {
     font-size: 0.7rem;
     font-weight: 700;
 }
+/* Theme Transition Ink Drop */
+.theme-transition-layer {
+    position: fixed;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 9999;
+    pointer-events: none;
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.theme-transition-layer.active {
+    transform: translate(-50%, -50%) scale(1);
+}
