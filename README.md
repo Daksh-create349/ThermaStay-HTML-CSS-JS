@@ -1,14 +1,20 @@
 # ThermaStay – Spa & Hot Springs Finder
 
-<div align="center">
+<div align="center" style="margin: 20px 0; perspective: 1000px;">
   <video 
-    src="https://github.com/user-attachments/assets/dac76758-e0ac-46ed-b7cc-89adc20dc92b" 
-    width="500" 
+    src="https://github.com/user-attachments/assets/78d268d8-6cea-4e22-980f-908922e43798" 
+    width="600" 
     autoplay 
     muted 
     loop 
     playsinline
-    style="border-radius: 12px; pointer-events: none; outline: none; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+    style="
+      border-radius: 15px; 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
+      outline: none; 
+      border: none;
+      display: block;
+    ">
   </video>
 </div>
 
