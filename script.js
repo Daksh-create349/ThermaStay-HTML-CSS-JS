@@ -268,18 +268,25 @@ document.addEventListener('DOMContentLoaded', () => {
         showPass: (index) => {
             const bookings = JSON.parse(localStorage.getItem(`b_${state.user.email}`)) || [];
             const b = bookings[index];
-            if (!b) return;
+            if (!b) {
+                console.error("Booking not found at index:", index);
+                return;
+            }
 
-            // Populate Pass Data
-            $('#pass-guest').innerText = state.user.name;
-            $('#pass-spa').innerText = b.spa;
-            $('#pass-plan').innerText = b.plan;
-            $('#pass-date').innerText = b.date;
-            $('#pass-id-val').innerText = `TS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+            // Populate Pass Data with safe checks
+            const guest = $('#pass-guest'), spa = $('#pass-spa'), plan = $('#pass-plan'), date = $('#pass-date'), idVal = $('#pass-id-val'), qr = $('#pass-qr');
+            
+            if (guest) guest.innerText = state.user.name;
+            if (spa) spa.innerText = b.spa;
+            if (plan) plan.innerText = b.plan;
+            if (date) date.innerText = b.date;
+            if (idVal) idVal.innerText = `TS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
 
-            // Generate QR Code (Placeholder using qrserver.com)
-            const qrData = encodeURIComponent(`Booking:${b.spa}|User:${state.user.email}|Date:${b.date}`);
-            $('#pass-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}&bgcolor=ffffff&color=000000&margin=10`;
+            // Generate QR Code
+            if (qr) {
+                const qrData = encodeURIComponent(`Booking:${b.spa}|User:${state.user.email}|Date:${b.date}`);
+                qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}&bgcolor=ffffff&color=000000&margin=10`;
+            }
 
             ui.showPanel('pass');
         },
@@ -308,13 +315,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.logout = () => { localStorage.removeItem('user'); state.user = null; ui.updateNav(); ui.close(); };
 
-    window.confirmBooking = () => {
+    window.confirmBooking = (btn) => {
         const d = $('#book-date').value, p = $('#target-plan').innerText, s = $('#target-spa').innerText, u = state.user;
         if (d && u) {
-            const b = JSON.parse(localStorage.getItem(`b_${u.email}`)) || [];
-            b.push({ plan: p, spa: s, date: d });
-            localStorage.setItem(`b_${u.email}`, JSON.stringify(b));
-            ui.showPass(b.length - 1);
+            // Visual feedback on button
+            const originalText = btn.innerText;
+            btn.innerText = 'PROCESSING...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                const b = JSON.parse(localStorage.getItem(`b_${u.email}`)) || [];
+                b.push({ plan: p, spa: s, date: d });
+                localStorage.setItem(`b_${u.email}`, JSON.stringify(b));
+                
+                // Show pass
+                ui.showPass(b.length - 1);
+                
+                // Reset button
+                btn.innerText = originalText;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+            }, 800);
         } else alert('Please select a date');
     };
 
