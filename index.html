@@ -198,8 +198,53 @@
             <h2>Book <span id="target-plan"></span></h2>
             <p style="text-transform:uppercase; letter-spacing:1px; font-size:0.7rem; opacity:0.6; margin-bottom:2rem;">
                 At <span id="target-spa"></span></p>
-            <input type="date" id="book-date" min="${new Date().toISOString().split('T')[0]}">
+            <input type="date" id="book-date">
             <button class="btn-premium" onclick="confirmBooking()">Confirm Reservation</button>
+        </div>
+
+        <div class="panel pass-panel" id="pass-panel" style="display:none">
+            <div class="pass-header">
+                <span class="close pass-close" onclick="closeUI()">&times;</span>
+                <img src="images/Therma.png" alt="ThermaStay Logo" class="pass-logo logo-light">
+                <img src="images/Thermablack.png" alt="ThermaStay Logo" class="pass-logo logo-dark">
+                <div class="pass-type">OFFICIAL PASS</div>
+            </div>
+            
+            <div class="pass-main">
+                <div class="pass-info">
+                    <div class="pass-field">
+                        <label>GUEST</label>
+                        <div id="pass-guest">---</div>
+                    </div>
+                    <div class="pass-field">
+                        <label>DESTINATION</label>
+                        <div id="pass-spa">---</div>
+                    </div>
+                    <div class="pass-row">
+                        <div class="pass-field">
+                            <label>PLAN</label>
+                            <div id="pass-plan">---</div>
+                        </div>
+                        <div class="pass-field">
+                            <label>DATE</label>
+                            <div id="pass-date">---</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pass-qr-container">
+                    <img id="pass-qr" src="" alt="QR Access Code">
+                    <div class="qr-hint">SCAN FOR ACCESS</div>
+                </div>
+            </div>
+            
+            <div class="pass-footer">
+                <p>PRESENT THIS AT THE DESTINATION CONCIERGE</p>
+                <div class="pass-id">ID: <span id="pass-id-val">TS-000000</span></div>
+            </div>
+            
+            <div class="ticket-cutout-l"></div>
+            <div class="ticket-cutout-r"></div>
         </div>
     </div>
 

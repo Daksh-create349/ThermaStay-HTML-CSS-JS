@@ -1788,3 +1788,213 @@ footer {
 .theme-transition-layer.active {
     transform: translate(-50%, -50%) scale(1);
 }
+
+/* --- Premium Pass View --- */
+.pass-panel {
+    max-width: 500px !important;
+    padding: 0 !important;
+    overflow: hidden;
+    background: var(--bg-secondary) !important;
+    border: none !important;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3) !important;
+    position: relative;
+}
+
+.pass-header {
+    background: var(--bg-primary);
+    padding: 2.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed var(--border-primary);
+    position: relative;
+    transition: background 0.5s ease;
+}
+
+.pass-logo {
+    height: 100px;
+    width: auto;
+    object-fit: contain;
+}
+
+.pass-type {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--accent-primary);
+    font-weight: 700;
+}
+
+.pass-main {
+    padding: 3rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.pass-info {
+    flex: 1;
+}
+
+.pass-field {
+    margin-bottom: 1.5rem;
+}
+
+.pass-field label {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+}
+
+.pass-field div {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.pass-row {
+    display: flex;
+    gap: 3rem;
+}
+
+#pass-date {
+    white-space: nowrap;
+}
+
+.pass-qr-container {
+    text-align: center;
+}
+
+#pass-qr {
+    width: 120px;
+    height: 120px;
+    border: 10px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.qr-hint {
+    font-size: 0.55rem;
+    letter-spacing: 1px;
+    margin-top: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.pass-footer {
+    padding: 2rem;
+    background: var(--bg-primary);
+    text-align: center;
+    border-top: 2px dashed var(--border-primary);
+}
+
+.pass-footer p {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.8rem;
+    opacity: 0.7;
+}
+
+.pass-id {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+/* Ticket Cutouts */
+.ticket-cutout-l, .ticket-cutout-r {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: var(--overlay-bg); /* Match the overlay background for the cutout effect */
+    border-radius: 50%;
+    top: 50%;
+    z-index: 10;
+    transition: background 0.5s ease;
+}
+
+.ticket-cutout-l {
+    left: -15px;
+    transform: translateY(-50%);
+}
+
+.ticket-cutout-r {
+    right: -15px;
+    transform: translateY(-50%);
+}
+
+/* Modal and Cutout Interaction with Overlay */
+#overlay {
+    background: rgba(0, 0, 0, 0.85); /* Slightly darker for better contrast */
+    backdrop-filter: blur(15px);
+}
+
+/* Adjust for Dark Mode Overlay Background */
+[data-theme="dark"] .ticket-cutout-l, 
+[data-theme="dark"] .ticket-cutout-r {
+    background: #050806; /* Explicitly match dark mode overlay bg */
+}
+
+/* Booking Item Hover Enhancement */
+.b-item {
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.b-item:hover {
+    background: rgba(140, 94, 69, 0.1) !important;
+    transform: translateX(10px);
+}
+
+@media (max-width: 480px) {
+    .pass-main {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .pass-row {
+        justify-content: center;
+    }
+    .pass-qr-container {
+        order: -1;
+        margin-bottom: 2rem;
+    }
+}
+
+/* --- Pass Logo Theme Integration --- */
+/* Default (Light Mode / Not Scrolled context if applicable): show black logo, hide white */
+.pass-header .logo-light { display: none; }
+.pass-header .logo-dark  { display: block; }
+
+/* Dark Mode: show white logo, hide black */
+[data-theme="dark"] .pass-header .logo-light { display: block; }
+[data-theme="dark"] .pass-header .logo-dark  { display: none; }
+
+/* --- Pass Close Button Enhancement --- */
+.pass-close {
+    top: 1.5rem !important;
+    right: 1.5rem !important;
+    font-size: 2rem !important;
+    opacity: 0.8 !important;
+    z-index: 100;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: var(--transition-fast);
+}
+
+.pass-close:hover {
+    opacity: 1 !important;
+    transform: scale(1.1) rotate(90deg);
+    background: var(--accent-primary);
+    color: var(--bg-primary) !important;
+}

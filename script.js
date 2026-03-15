@@ -251,6 +251,8 @@ document.addEventListener('DOMContentLoaded', () => {
             Object.keys(ui.panels).forEach(p => {
                 if (ui.panels[p]) ui.panels[p].style.display = p === name ? 'block' : 'none';
             });
+            if (name === 'pass') $('#pass-panel').style.display = 'block';
+            else if ($('#pass-panel')) $('#pass-panel').style.display = 'none';
             document.body.style.overflow = 'hidden';
             
             if (name === 'profile' && state.user) {
@@ -259,9 +261,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 const list = $('#b-list');
                 const bookings = JSON.parse(localStorage.getItem(`b_${state.user.email}`)) || [];
                 list.innerHTML = bookings.length ? 
-                    bookings.map(b => `<div class="b-item"><div><p>${b.plan}</p><span>${b.spa}</span></div><span>${b.date}</span></div>`).join('') : 
+                    bookings.map((b, i) => `<div class="b-item" onclick="showPass(${i})"><div><p>${b.plan}</p><span>${b.spa}</span></div><span>${b.date}</span></div>`).join('') : 
                     '<p class="empty-msg">No active reservations.</p>';
             }
+        },
+        showPass: (index) => {
+            const bookings = JSON.parse(localStorage.getItem(`b_${state.user.email}`)) || [];
+            const b = bookings[index];
+            if (!b) return;
+
+            // Populate Pass Data
+            $('#pass-guest').innerText = state.user.name;
+            $('#pass-spa').innerText = b.spa;
+            $('#pass-plan').innerText = b.plan;
+            $('#pass-date').innerText = b.date;
+            $('#pass-id-val').innerText = `TS-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
+
+            // Generate QR Code (Placeholder using qrserver.com)
+            const qrData = encodeURIComponent(`Booking:${b.spa}|User:${state.user.email}|Date:${b.date}`);
+            $('#pass-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}&bgcolor=ffffff&color=000000&margin=10`;
+
+            ui.showPanel('pass');
         },
         close: () => {
             ui.overlay.style.display = 'none';
@@ -270,6 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.closeUI = ui.close;
+    window.showPass = ui.showPass;
     window.toggleAuth = (m) => {
         $('#login-fields').style.display = m === 'login' ? 'block' : 'none';
         $('#signup-fields').style.display = m === 'signup' ? 'block' : 'none';
@@ -293,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const b = JSON.parse(localStorage.getItem(`b_${u.email}`)) || [];
             b.push({ plan: p, spa: s, date: d });
             localStorage.setItem(`b_${u.email}`, JSON.stringify(b));
-            alert('Reservation Confirmed'); ui.close();
+            ui.showPass(b.length - 1);
         } else alert('Please select a date');
     };
 
@@ -313,6 +334,10 @@ document.addEventListener('DOMContentLoaded', () => {
             ui.showPanel('book');
         }
     });
+
+    if ($('#book-date')) {
+        $('#book-date').min = new Date().toISOString().split('T')[0];
+    }
 
     ui.updateNav();
 });
