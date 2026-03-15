@@ -1,5 +1,17 @@
 # ThermaStay – Spa & Hot Springs Finder
 
+<div align="center">
+  <video 
+    src="https://github.com/user-attachments/assets/dac76758-e0ac-46ed-b7cc-89adc20dc92b" 
+    width="500" 
+    autoplay 
+    muted 
+    loop 
+    playsinline
+    style="border-radius: 12px; pointer-events: none; outline: none; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+  </video>
+</div>
+
 ThermaStay is a premium, minimalist luxury web application designed to help users find their perfect thermal escape. Built with a focus on high-end aesthetics, nature-inspired design, and seamless user experience, it offers a curated collection of wellness sanctuaries, specifically localized for **Navi Mumbai**.
 
 ---
