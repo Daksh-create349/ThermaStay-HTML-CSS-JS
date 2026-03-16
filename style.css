@@ -288,9 +288,9 @@ nav.scrolled .logo .logo-dark  { display: block; }
 [data-theme="dark"] nav.scrolled .logo .logo-dark  { display: none; }
 
 /* --- Footer Logo --- */
-/* Light mode footer: show black logo, hide white */
-.footer-logo .logo-dark  { display: block; }
-.footer-logo .logo-light { display: none; }
+/* Footer has dark background in BOTH modes, so always show white logo */
+.footer-logo .logo-dark  { display: none; }
+.footer-logo .logo-light { display: block; }
 
 /* Dark mode footer: show white logo, hide black */
 [data-theme="dark"] .footer-logo .logo-dark  { display: none; }
@@ -773,14 +773,16 @@ section {
 
 /* Footer */
 footer {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
+    background: var(--text-primary);
+    color: var(--bg-primary);
     padding: 8rem 12% 4rem;
-    border-top: 1px solid var(--border-primary);
+    border-top: none;
 }
 
 [data-theme="dark"] footer {
     background: var(--bg-primary); /* Deepest for dark footer */
+    color: var(--text-primary);
+    border-top: 1px solid var(--border-primary);
 }
 
 .footer-content {
@@ -798,6 +800,11 @@ footer {
     font-size: 1rem;
     line-height: 1.7;
     margin: 2rem 0;
+    color: inherit;
+    opacity: 0.8;
+}
+
+[data-theme="dark"] .brand-bio {
     color: var(--text-secondary);
     opacity: 0.9;
 }
@@ -812,7 +819,7 @@ footer {
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 700;
-    color: var(--text-primary);
+    color: inherit;
     transition: var(--transition-fast);
 }
 
@@ -866,8 +873,14 @@ footer {
 .copyright {
     font-size: 0.75rem;
     letter-spacing: 2px;
-    color: var(--text-secondary);
+    color: inherit;
+    opacity: 0.6;
     margin: 0;
+}
+
+[data-theme="dark"] .copyright {
+    color: var(--text-secondary);
+    opacity: 1;
 }
 
 .designer-tag {
